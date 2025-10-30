@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Madhu! 💕</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Phase Styles */
+        .phase {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .phase.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Phase 1 - Welcome */
+        #phase1 {
+            background: linear-gradient(45deg, #ff6b6b, #ffa5a5, #ffd3b6);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        /* Phase 2 - Nicknames */
+        #phase2 {
+            background: linear-gradient(45deg, #a8e6cf, #dcedc1, #ffd3b6);
+            padding: 40px 20px;
+        }
+
+        .nickname-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 30px 0;
+        }
+
+        .nickname-item {
+            display: flex;
+            margin-bottom: 50px;
+            align-items: center;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .nickname-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nickname-item:nth-child(even) {
+            flex-direction: row-reverse;
+            transform: translateX(50px);
+        }
+
+        .nickname-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .nickname-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            margin: 0 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .nickname-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .nickname-title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .nickname-meaning {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #555;
+            text-align: left;
+        }
+
+        .nickname-icon {
+            font-size: 4rem;
+            color: #ff6b6b;
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Phase 3 - Love Message */
+        #phase3 {
+            background: linear-gradient(45deg, #ffaaa5, #ff8b94, #ff6b6b);
+            color: white;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .message-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .message-content {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .message-content p {
+            margin-bottom: 15px;
+        }
+
+        /* Phase 4 - Special Message */
+        #phase4 {
+            background: linear-gradient(45deg, #74b9ff, #a29bfe, #fd79a8);
+            color: white;
+        }
+
+        .special-message-box {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .special-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .special-content {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .special-content p {
+            margin-bottom: 15px;
+        }
+
+        /* Phase 5 - Birthday Countdown */
+        #phase5 {
+            background: linear-gradient(45deg, #ff7675, #fd79a8, #a29bfe);
+            color: white;
+        }
+
+        .birthday-box {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .birthday-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Phase 6 - Surprise */
+        #phase6 {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .surprise-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .surprise-title {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container {
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.5s ease;
+        }
+
+        .image-container.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .surprise-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .image-message {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: left;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease 0.5s;
+        }
+
+        .image-message.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #ff6b6b;
+        }
+
+        .btn-surprise {
+            background: linear-gradient(45deg, #ff6b6b, #ffa5a5);
+            color: white;
+            font-size: 1.5rem;
+            padding: 18px 50px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Hearts */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .nickname-item {
+                flex-direction: column !important;
+                transform: translateY(50px) !important;
+            }
+            
+            .nickname-item.visible {
+                transform: translateY(0) !important;
+            }
+            
+            .nickname-card {
+                margin: 20px 0;
+            }
+            
+            .nickname-icon {
+                margin-bottom: 20px;
+            }
+            
+            .message-box, .special-message-box, .birthday-box {
+                padding: 20px;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+            }
+            
+            .message-content, .special-content {
+                font-size: 1rem;
+            }
+            
+            .nickname-title {
+                font-size: 2rem;
+            }
+            
+            .nickname-meaning {
+                font-size: 1rem;
+            }
+            
+            .surprise-title {
+                font-size: 2.2rem;
+            }
+            
+            .image-message {
+                font-size: 1rem;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+
+    <div class="container">
+        <!-- Phase 1: Welcome -->
+        <div class="phase active" id="phase1">
+            <h1 class="title floating">Happy Birthday Madhu! 💕</h1>
+            <p class="subtitle">To the most amazing person in my life. You make every day brighter just by being you.</p>
+            <button class="btn" onclick="nextPhase(1)">Let's Celebrate! <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <!-- Phase 2: Nicknames -->
+        <div class="phase" id="phase2">
+            <h1 class="title">My Special Names for You</h1>
+            <p class="subtitle">Each nickname has a special meaning in my heart</p>
+            
+            <div class="nickname-container">
+                <div class="nickname-item">
+                    <div class="nickname-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="nickname-card">
+                        <h2 class="nickname-title">Madhu Ma</h2>
+                        <div class="nickname-meaning">
+                            Nan common aa vae ma nu soluven u know ana un name ooda kuputum pothu enaku oru maari happiness varum madhu maaa nu solum pothu i love it unakum athu romba pudikum that's y i call u madhu maa my madhu ma💕
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nickname-item">
+                    <div class="nickname-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="nickname-card">
+                        <h2 class="nickname-title">Di with Madhu Ma</h2>
+                        <div class="nickname-meaning">
+                            Di namba yaarayum potu kuputa kudathu it is not right and correct way to speak with a it is a word that is used with the person who are close to heart and life partner avanga maatum thaa apdi kuputa mudiyum unna thaa romba di potu kuputu iruken mostly yarukum pudikathu boys apdi kuputa until they accept them by the heart normal la kuputa oru konjam times aprm apdi solatha nu word varum from girls but antha paiyan ava life partner aa irundha varathu i love you so much athu thaa iruku inga umahh💕
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nickname-item">
+                    <div class="nickname-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="nickname-card">
+                        <h2 class="nickname-title">Papa</h2>
+                        <div class="nickname-meaning">
+                            Y i call you papa na nee en papa😅💕en life la enaku nu oru papa vandhalum nee thaa enaku 1st papa that is meaning y i call you papa umahh 💕💕i love you so much
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nickname-item">
+                    <div class="nickname-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="nickname-card">
+                        <h2 class="nickname-title">Adiyae</h2>
+                        <div class="nickname-meaning">
+                            Idhu konjam oru azhagana cute aana times la sola cute aa irrukum apdi kuputum pothu enaku oru full rights irukura feel irukum💕💕💕🫂
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nickname-item">
+                    <div class="nickname-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="nickname-card">
+                        <h2 class="nickname-title">Pondatii</h2>
+                        <div class="nickname-meaning">
+                            My dearest and mostly lovable wifeyyyyyy i love you so much it contains lots of meaning ila lots and lots of love🫂💕💕💕💕💕💕💕💕💕💕💕i love you so much pondatiiii💕💕
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="nextPhase(2)">Continue <i class="fas fa-arrow-right"></i></button>
+            <button class="btn btn-secondary" onclick="prevPhase(2)"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+
+        <!-- Phase 3: Our Story -->
+        <div class="phase" id="phase3">
+            <h1 class="title">Our Beautiful Journey 💕</h1>
+            
+            <div class="message-box">
+                <h2 class="message-title">Hi Papa,</h2>
+                <div class="message-content">
+                    <p>Nan unna 2nd semester la paathen. 1st yr 1sem kuda ila nan paathu sight adicha 1st ponnu seri nu paathen unkuda frnd aa irundha pothum nu nanechan. Ana athuku aprm neriya chaos so venda nu irundha nee pesuna 2yr la 3rd sem la on 12th august oru 8pm pola irukum ig nee enkita pesunathu. Oru sila peruku pudikala but still nee pesuna.</p>
+                    
+                    <p>15th nee vgp poi irundha so namba pesala. Aprm 16th start panna namba journey. Ipo life la vaztha unkuda thaa vazuven nu rendu perum irukura alavuku life namba kutitu vandhu iruku. Neriya sanda potu irukom namba from the start. En periya sanda yae aagi iruku nee enaku venda nan unaku venda la alavuku but we can't withstand 24hrs without talking to each other.</p>
+                    
+                    <p>But nan atha time la unna romba hurt panen. Ana apo kuda nan athuku aprm nan unna romba kastapaduthiten nu sona po nee sona ore word "nee thaanah athula onu ila paravaala " nu sona apo nanechan eva thaa da en life partner nu 💕💕</p>
+                    
+                    <p>Nan unna one time thaa hurt pani iruken pesi bus la mrng I am extremely sry inime en life un kuda vazthum pothum un apovum hurt panavae maten. I want to extremely thank you and say a sry to u....💕💕🥺🫂</p>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="nextPhase(3)">Continue Reading <i class="fas fa-arrow-right"></i></button>
+            <button class="btn btn-secondary" onclick="prevPhase(3)"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+
+        <!-- Phase 4: Special Message -->
+        <div class="phase" id="phase4">
+            <h1 class="title">You Are My Everything 💕</h1>
+            
+            <div class="special-message-box">
+                <h2 class="special-title">My Dear Madhu Ma,</h2>
+                <div class="special-content">
+                    <p>Enaku unna paakum pothu thonum nee azhaga irupa by appearance and by heart. Nan apdi ila unkitayae nan idha soli iruken ana enakaga nee neriya sacrifice pani iruka. Nee apo apo sanda podum pothu idhu soluva "vera athachu ponna aa irundha odi irupa "💕😂nu ana nejama honest aa vera ponna aa irundha enkuda life la evlo naal enkuda irundhu irupala nu doubt thaa.</p>
+                    
+                    <p>Nambalukula varatha sandayae ila nu nanekuren 😅💕Apa.....apaaaa.... evlo sanda...😂😅💕Oru sila sandaya nanecha siripu varum enda idhukula sanda potu irukum nu ana oru silathu nanekum pothu kastama irukum.</p>
+                    
+                    <p>Namba life la oru person la evlo influenced aa sanda aa varum namba paathutom. Neriya per love la angayae gaali irukum coz it is a big fight but athayae cross panitu inga irukom ipo. Athu romba periya sanda and neriya sanda irukatum but I see each and every fight and scoldings is to correct ourselves especially me 😅</p>
+                    
+                    <p>Neriya therichikitom each other. Paathi romba sight adicha ponnu nee thaa aiyoo vekama irukae😅😅💕💕....I love you sooo much my dear Madhu maaaa umaaahhh...</p>
+                    
+                    <p>This moment I feel happy everytime. Nan kastama irukum pothu I will think of u and I will get a big relief whenever I see you or hear your voice. Idhu maari enaku amma kita god kita kedachuchu before you come into my life after that unkita irundha that same type of feel, love everything I got .....You are my pearl in the ocean 🌊🫧💕</p>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="nextPhase(4)">Final Words <i class="fas fa-heart"></i></button>
+            <button class="btn btn-secondary" onclick="prevPhase(4)"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+
+        <!-- Phase 5: Birthday Countdown -->
+        <div class="phase" id="phase5">
+            <h1 class="title">Advance Happy Birthday! 🎂</h1>
+            
+            <div class="birthday-box">
+                <h2 class="birthday-title">My Promise to You</h2>
+                <p style="margin-bottom: 20px; font-size: 1.2rem;">Innum neriya sanda poduvom idhae maari enna da evlo sanda potalum evlo prechana vandhalum evangaa pesuraga nalla irukaga nu paakuravaga solra maari irukom irupom.</p>
+                
+                <p style="margin-bottom: 20px; font-size: 1.2rem;">Epovum unna nan etha situation layum vitu poidamaten idhu promise aa vechikalam enna vena vechikalam idhu thaa truth and final ...you are my destination Madhu ma my dear love my pondatii💕💕💕💕</p>
+                
+                <p style="margin-bottom: 20px; font-size: 1.2rem;">I love you sooo muchhhh💕💕Idhae maari life long enkuda sanda potutae iru en thangapoovae💕Ana enna vitutu poidatha seriya aa.</p>
+                
+                <p style="margin-bottom: 20px; font-size: 1.2rem;">I love you so much once again i want to wish you advance happy birthday my madhu maaaaa💕💕💕I love you sooo much my dear umaaaaa💕💕</p>
+                
+                <p style="margin-bottom: 20px; font-size: 1.2rem;">Seekiram onna success aagi successful la namba parents ku prove panalam idhu infatuation ila true love nu. I love youuuu so much papa urge to live with you forever 💕💕Umaaaaa🫂🫂🫂</p>
+                
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">0</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">0</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">0</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">0</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                <p>Counting down to your special day on November 24th!</p>
+            </div>
+            
+            <button class="btn btn-surprise" onclick="nextPhase(5)">Surprise! <i class="fas fa-gift"></i></button>
+            <button class="btn btn-secondary" onclick="prevPhase(5)"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+
+        <!-- Phase 6: Surprise -->
+        <div class="phase" id="phase6">
+            <div class="surprise-container">
+                <h1 class="surprise-title">A Special Surprise For You 💖</h1>
+                
+                <div class="image-container" id="imageContainer">
+                    <img src="images/Gemini_Generated_Image_a4i5b5a4i5b5a4i5.png" alt="Beautiful Surprise" class="surprise-image">
+                </div>
+                
+                <div class="image-message" id="imageMessage">
+                    <p>Intha pic gemini generated aa irukalam ana idhu en manusu kula inthu thaa iruku nee kovama irundhalum ena care panama irundhadhu ila pesamaten nu soluva ana pesama irundhadhu ila enakku na promise panathu ila intha vechi ana this time nan volunteer aa inimae yarukita girls la pesamaten athu enaku theva ilatha oru vishiyam enaku unkita pesamudiyala naalum elamae solrathuku share panrathuku nee iruka so enaku athu pothum idhu nannae edutha mudivu coz i don't want to hurt my baby girl hereafter ennala ava kita pesama irukamudiyala mudiyathu so inime idhu maari situation la nan irukamaten nu unaku vaaku kudukuren epovumae nee thaa enaku important unaku aprm thaa elamae oru thing pesurathuku munadi innoruthaga enna nelamai la irukaga nu therichakanum nu learn panikuten athum inime kandipa iruku 💖😭🫂epovumae unna hurt panama azhaga this pic la irukura maariyae paathukuren i love you so much my dear pondatii umaaaaaa...........</p>
+                </div>
+                
+                <button class="btn" onclick="nextPhase(6)">Start Over <i class="fas fa-redo"></i></button>
+                <button class="btn btn-secondary" onclick="prevPhase(6)"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Phase navigation
+        let currentPhase = 1;
+        const totalPhases = 6;
+
+        function nextPhase(current) {
+            if (current < totalPhases) {
+                document.getElementById(`phase${current}`).classList.remove('active');
+                document.getElementById(`phase${current + 1}`).classList.add('active');
+                currentPhase = current + 1;
+                
+                // If we're going to the nickname phase, trigger animations
+                if (current + 1 === 2) {
+                    setTimeout(animateNicknames, 500);
+                }
+                
+                // If we're going to the surprise phase, trigger image reveal
+                if (current + 1 === 6) {
+                    setTimeout(revealImage, 500);
+                }
+            } else {
+                // If we're on the last phase, loop back to the first
+                document.getElementById(`phase${current}`).classList.remove('active');
+                document.getElementById(`phase1`).classList.add('active');
+                currentPhase = 1;
+            }
+        }
+
+        function prevPhase(current) {
+            if (current > 1) {
+                document.getElementById(`phase${current}`).classList.remove('active');
+                document.getElementById(`phase${current - 1}`).classList.add('active');
+                currentPhase = current - 1;
+            }
+        }
+
+        // Animate nickname items
+        function animateNicknames() {
+            const nicknameItems = document.querySelectorAll('.nickname-item');
+            nicknameItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('visible');
+                }, index * 300);
+            });
+        }
+
+        // Reveal image and message in the surprise phase
+        function revealImage() {
+            const imageContainer = document.getElementById('imageContainer');
+            const imageMessage = document.getElementById('imageMessage');
+            
+            setTimeout(() => {
+                imageContainer.classList.add('revealed');
+            }, 300);
+            
+            setTimeout(() => {
+                imageMessage.classList.add('revealed');
+            }, 1000);
+        }
+
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const colors = ['#ff6b6b', '#ffa5a5', '#ffd3b6', '#a8e6cf', '#dcedc1', '#74b9ff', '#a29bfe', '#fd79a8'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 5 + 's';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
+            }, 300);
+        }
+
+        // Countdown timer to November 24th
+        function startCountdown() {
+            // Set the target date (November 24th of current year)
+            const now = new Date();
+            let target = new Date(now.getFullYear(), 10, 24); // November is month 10 (0-indexed)
+            
+            // If it's already past November 24th, set for next year
+            if (now > target) {
+                target = new Date(now.getFullYear() + 1, 10, 24);
+            }
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = target - now;
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            createHearts();
+            startCountdown();
+            
+            // If we start on the nickname page, animate them
+            if (currentPhase === 2) {
+                animateNicknames();
+            }
+        };
+    </script>
+</body>
+</html>
