@@ -37,6 +37,8 @@
             text-align: center;
             opacity: 0;
             transition: opacity 1s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .phase.active {
@@ -55,12 +57,16 @@
             font-size: 4rem;
             margin-bottom: 20px;
             animation: pulse 2s infinite;
+            position: relative;
+            z-index: 2;
         }
 
         .subtitle {
             font-size: 1.5rem;
             margin-bottom: 40px;
             max-width: 600px;
+            position: relative;
+            z-index: 2;
         }
 
         /* Phase 2 - Nicknames */
@@ -82,6 +88,8 @@
             opacity: 0;
             transform: translateX(-50px);
             transition: all 0.8s ease;
+            position: relative;
+            z-index: 2;
         }
 
         .nickname-item.visible {
@@ -99,17 +107,20 @@
         }
 
         .nickname-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             flex: 1;
             margin: 0 20px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .nickname-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
 
         .nickname-title {
@@ -138,6 +149,11 @@
             background: white;
             border-radius: 50%;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .nickname-item:hover .nickname-icon {
+            transform: rotate(15deg) scale(1.1);
         }
 
         /* Phase 3 - Love Message */
@@ -156,6 +172,12 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-height: 70vh;
             overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .message-box:hover {
+            transform: translateY(-5px);
         }
 
         .message-title {
@@ -171,6 +193,15 @@
 
         .message-content p {
             margin-bottom: 15px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .message-content p::before {
+            content: "💖";
+            position: absolute;
+            left: 0;
+            top: 0;
         }
 
         /* Phase 4 - Special Message */
@@ -189,6 +220,12 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-height: 70vh;
             overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .special-message-box:hover {
+            transform: translateY(-5px);
         }
 
         .special-title {
@@ -204,6 +241,15 @@
 
         .special-content p {
             margin-bottom: 15px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .special-content p::before {
+            content: "💕";
+            position: absolute;
+            left: 0;
+            top: 0;
         }
 
         /* Phase 5 - Birthday Countdown */
@@ -220,6 +266,12 @@
             max-width: 600px;
             margin: 30px 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .birthday-box:hover {
+            transform: translateY(-5px);
         }
 
         .birthday-title {
@@ -239,6 +291,11 @@
             border-radius: 10px;
             padding: 15px;
             min-width: 80px;
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: scale(1.1);
         }
 
         .countdown-number {
@@ -310,6 +367,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 1s ease 0.5s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .image-message.revealed {
@@ -330,6 +388,25 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
@@ -368,8 +445,18 @@
             100% { transform: translateY(0px); }
         }
 
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+            50% { box-shadow: 0 0 20px rgba(255,255,255,0.8); }
+            100% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+        }
+
         .floating {
             animation: float 5s ease-in-out infinite;
+        }
+
+        .glowing {
+            animation: glow 2s ease-in-out infinite;
         }
 
         /* Hearts */
@@ -394,6 +481,51 @@
             to {
                 transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
+            }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.3;
+            animation: floatElement 15s infinite linear;
+        }
+
+        @keyframes floatElement {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        /* Love Text */
+        .love-text {
+            position: absolute;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: floatText 20s infinite linear;
+            white-space: nowrap;
+        }
+
+        @keyframes floatText {
+            0% {
+                transform: translateX(100vw) rotate(0deg);
+            }
+            100% {
+                transform: translateX(-100px) rotate(360deg);
             }
         }
 
@@ -461,13 +593,15 @@
     <div class="container">
         <!-- Phase 1: Welcome -->
         <div class="phase active" id="phase1">
+            <div class="floating-elements" id="floatingElements1"></div>
             <h1 class="title floating">Happy Birthday Madhu! 💕</h1>
             <p class="subtitle">To the most amazing person in my life. You make every day brighter just by being you.</p>
-            <button class="btn" onclick="nextPhase(1)">Let's Celebrate! <i class="fas fa-arrow-right"></i></button>
+            <button class="btn glowing" onclick="nextPhase(1)">Let's Celebrate! <i class="fas fa-arrow-right"></i></button>
         </div>
 
         <!-- Phase 2: Nicknames -->
         <div class="phase" id="phase2">
+            <div class="floating-elements" id="floatingElements2"></div>
             <h1 class="title">My Special Names for You</h1>
             <p class="subtitle">Each nickname has a special meaning in my heart</p>
             
@@ -539,6 +673,7 @@
 
         <!-- Phase 3: Our Story -->
         <div class="phase" id="phase3">
+            <div class="floating-elements" id="floatingElements3"></div>
             <h1 class="title">Our Beautiful Journey 💕</h1>
             
             <div class="message-box">
@@ -560,6 +695,7 @@
 
         <!-- Phase 4: Special Message -->
         <div class="phase" id="phase4">
+            <div class="floating-elements" id="floatingElements4"></div>
             <h1 class="title">You Are My Everything 💕</h1>
             
             <div class="special-message-box">
@@ -583,6 +719,7 @@
 
         <!-- Phase 5: Birthday Countdown -->
         <div class="phase" id="phase5">
+            <div class="floating-elements" id="floatingElements5"></div>
             <h1 class="title">Advance Happy Birthday! 🎂</h1>
             
             <div class="birthday-box">
@@ -624,6 +761,7 @@
 
         <!-- Phase 6: Surprise -->
         <div class="phase" id="phase6">
+            <div class="floating-elements" id="floatingElements6"></div>
             <div class="surprise-container">
                 <h1 class="surprise-title">A Special Surprise For You 💖</h1>
                 
@@ -661,11 +799,15 @@
                 if (current + 1 === 6) {
                     setTimeout(revealImage, 500);
                 }
+                
+                // Create floating elements for the new phase
+                createFloatingElements(current + 1);
             } else {
                 // If we're on the last phase, loop back to the first
                 document.getElementById(`phase${current}`).classList.remove('active');
                 document.getElementById(`phase1`).classList.add('active');
                 currentPhase = 1;
+                createFloatingElements(1);
             }
         }
 
@@ -674,6 +816,7 @@
                 document.getElementById(`phase${current}`).classList.remove('active');
                 document.getElementById(`phase${current - 1}`).classList.add('active');
                 currentPhase = current - 1;
+                createFloatingElements(current - 1);
             }
         }
 
@@ -723,6 +866,44 @@
             }, 300);
         }
 
+        // Create floating elements for each phase
+        function createFloatingElements(phaseNum) {
+            const container = document.getElementById(`floatingElements${phaseNum}`);
+            if (!container) return;
+            
+            // Clear existing elements
+            container.innerHTML = '';
+            
+            const symbols = ['💖', '💕', '✨', '🌸', '🎀', '🎂', '🎁', '🥰'];
+            const loveWords = ['Love', 'Madhu', 'Forever', 'Together', 'Happiness', 'Smile', 'Beautiful', 'Special'];
+            
+            // Create floating symbols
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
+                element.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.animationDelay = Math.random() * 5 + 's';
+                element.style.fontSize = Math.random() * 20 + 15 + 'px';
+                element.style.opacity = Math.random() * 0.4 + 0.1;
+                
+                container.appendChild(element);
+            }
+            
+            // Create floating love words
+            for (let i = 0; i < 8; i++) {
+                const element = document.createElement('div');
+                element.classList.add('love-text');
+                element.innerHTML = loveWords[i];
+                element.style.top = Math.random() * 80 + 10 + 'vh';
+                element.style.animationDelay = Math.random() * 10 + 's';
+                element.style.fontSize = Math.random() * 10 + 14 + 'px';
+                element.style.opacity = Math.random() * 0.3 + 0.1;
+                
+                container.appendChild(element);
+            }
+        }
+
         // Countdown timer to November 24th
         function startCountdown() {
             // Set the target date (November 24th of current year)
@@ -757,6 +938,7 @@
         window.onload = function() {
             createHearts();
             startCountdown();
+            createFloatingElements(1);
             
             // If we start on the nickname page, animate them
             if (currentPhase === 2) {
@@ -765,5 +947,4 @@
         };
     </script>
 </body>
-
 </html>
